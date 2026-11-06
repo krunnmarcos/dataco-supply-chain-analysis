@@ -1,27 +1,28 @@
 table _Medidas
 	lineageTag: 57bbba12-c391-49bd-8ec7-a829cc2cb873
 
-	measure Faturamento = SUM(fVendas[Faturamento])
+	measure Faturamento = CALCULATE(SUM(fVendas[Faturamento]), KEEPFILTERS(NOT fVendas[Status Pedido] IN {"CANCELED", "SUSPECTED_FRAUD"}))
 		formatString: \$#,0;(\$#,0);\$#,0
 		displayFolder: Vendas
 		lineageTag: a178e359-365f-4491-8b6c-84e8450bf0e2
 
-	measure 'Venda Bruta' = SUM(fVendas[Venda Bruta])
+	measure 'Venda Bruta' = CALCULATE(SUM(fVendas[Venda Bruta]), KEEPFILTERS(NOT fVendas[Status Pedido] IN {"CANCELED", "SUSPECTED_FRAUD"}))
 		formatString: \$#,0;(\$#,0);\$#,0
 		displayFolder: Vendas
 		lineageTag: 645bb204-efb3-40e3-af8b-71aef22f8803
 
-	measure 'Desconto Total' = SUM(fVendas[Desconto])
+	measure 'Desconto Total' = CALCULATE(SUM(fVendas[Desconto]), KEEPFILTERS(NOT fVendas[Status Pedido] IN {"CANCELED", "SUSPECTED_FRAUD"}))
 		formatString: \$#,0;(\$#,0);\$#,0
 		displayFolder: Vendas
 		lineageTag: f6ce6e1e-2c60-4c12-8367-de4258045fe6
 
-	measure 'Itens Vendidos' = SUM(fVendas[Quantidade])
+	measure 'Itens Vendidos' = CALCULATE(SUM(fVendas[Quantidade]), KEEPFILTERS(NOT fVendas[Status Pedido] IN {"CANCELED", "SUSPECTED_FRAUD"}))
 		formatString: #,0
 		displayFolder: Vendas
 		lineageTag: 682c999c-1127-4b19-882d-bcb822323fc6
 
-	measure Pedidos = DISTINCTCOUNT(fVendas[Pedido Id])
+	/// Pedidos enviados: exclui CANCELED e SUSPECTED_FRAUD, que nunca saem e não podem atrasar
+	measure Pedidos = CALCULATE(DISTINCTCOUNT(fVendas[Pedido Id]), KEEPFILTERS(NOT fVendas[Status Pedido] IN {"CANCELED", "SUSPECTED_FRAUD"}))
 		formatString: #,0
 		displayFolder: Vendas
 		lineageTag: e801619c-ae48-43fc-954c-e3fe727c2b1f
@@ -45,17 +46,17 @@ table _Medidas
 		displayFolder: Vendas
 		lineageTag: 5e76f9aa-e0f9-4619-9efb-c32b38c0a924
 
-	measure 'Lucro Líquido' = SUM(fVendas[Lucro])
+	measure 'Lucro Líquido' = CALCULATE(SUM(fVendas[Lucro]), KEEPFILTERS(NOT fVendas[Status Pedido] IN {"CANCELED", "SUSPECTED_FRAUD"}))
 		formatString: \$#,0;(\$#,0);\$#,0
 		displayFolder: Lucro
 		lineageTag: f1bf2ae4-e417-40c4-b621-d97e4b2df47a
 
-	measure 'Lucro Bruto' = CALCULATE(SUM(fVendas[Lucro]), fVendas[Lucro] > 0)
+	measure 'Lucro Bruto' = CALCULATE(SUM(fVendas[Lucro]), fVendas[Lucro] > 0, KEEPFILTERS(NOT fVendas[Status Pedido] IN {"CANCELED", "SUSPECTED_FRAUD"}))
 		formatString: \$#,0;(\$#,0);\$#,0
 		displayFolder: Lucro
 		lineageTag: de814ae1-7e56-450f-8c56-55a311639379
 
-	measure Prejuízo = -CALCULATE(SUM(fVendas[Lucro]), fVendas[Lucro] < 0)
+	measure Prejuízo = -CALCULATE(SUM(fVendas[Lucro]), fVendas[Lucro] < 0, KEEPFILTERS(NOT fVendas[Status Pedido] IN {"CANCELED", "SUSPECTED_FRAUD"}))
 		formatString: \$#,0;(\$#,0);\$#,0
 		displayFolder: Lucro
 		lineageTag: b5000411-d2f7-4ac4-b8c4-2de4212cfe84
@@ -65,12 +66,12 @@ table _Medidas
 		displayFolder: Lucro
 		lineageTag: caa0190c-0c64-41e3-bd66-35291fa281f4
 
-	measure '% Itens com Prejuízo' = DIVIDE(CALCULATE(COUNTROWS(fVendas), fVendas[Lucro] < 0), COUNTROWS(fVendas))
+	measure '% Itens com Prejuízo' = DIVIDE(CALCULATE(COUNTROWS(fVendas), fVendas[Lucro] < 0, KEEPFILTERS(NOT fVendas[Status Pedido] IN {"CANCELED", "SUSPECTED_FRAUD"})), CALCULATE(COUNTROWS(fVendas), KEEPFILTERS(NOT fVendas[Status Pedido] IN {"CANCELED", "SUSPECTED_FRAUD"})))
 		formatString: 0.0%
 		displayFolder: Lucro
 		lineageTag: e02e137c-354e-412d-89a2-fcc020aefeac
 
-	measure 'Receita Cancelada ou Fraude' = CALCULATE([Faturamento], fVendas[Status Pedido] IN {"CANCELED", "SUSPECTED_FRAUD"})
+	measure 'Receita Cancelada ou Fraude' = CALCULATE(SUM(fVendas[Faturamento]), fVendas[Status Pedido] IN {"CANCELED", "SUSPECTED_FRAUD"})
 		formatString: \$#,0;(\$#,0);\$#,0
 		displayFolder: Lucro
 		lineageTag: 8e4d35c9-fdb1-425f-8b7b-3f117037ad22
@@ -90,17 +91,17 @@ table _Medidas
 		displayFolder: Entregas
 		lineageTag: ad149d80-f6eb-4e0e-8f96-1232de5a7838
 
-	measure 'Dias Reais Médio' = AVERAGEX(SUMMARIZE(fVendas, fVendas[Pedido Id], fVendas[Dias Reais]), fVendas[Dias Reais])
+	measure 'Dias Reais Médio' = CALCULATE(AVERAGEX(SUMMARIZE(fVendas, fVendas[Pedido Id], fVendas[Dias Reais]), fVendas[Dias Reais]), KEEPFILTERS(NOT fVendas[Status Pedido] IN {"CANCELED", "SUSPECTED_FRAUD"}))
 		formatString: #,0.00
 		displayFolder: Entregas
 		lineageTag: 4cb43dbc-1031-4cdf-a9ec-d60221075659
 
-	measure 'Prazo Médio (dias)' = AVERAGEX(SUMMARIZE(fVendas, fVendas[Pedido Id], fVendas[Dias Previstos]), fVendas[Dias Previstos])
+	measure 'Prazo Médio (dias)' = CALCULATE(AVERAGEX(SUMMARIZE(fVendas, fVendas[Pedido Id], fVendas[Dias Previstos]), fVendas[Dias Previstos]), KEEPFILTERS(NOT fVendas[Status Pedido] IN {"CANCELED", "SUSPECTED_FRAUD"}))
 		formatString: #,0.00
 		displayFolder: Entregas
 		lineageTag: 0a9940fb-2f7a-41b2-bdc6-155a4f237983
 
-	measure 'Pedidos Cancelados' = CALCULATE([Pedidos], fVendas[Status Entrega] = "Shipping canceled")
+	measure 'Pedidos Cancelados' = CALCULATE(DISTINCTCOUNT(fVendas[Pedido Id]), fVendas[Status Entrega] = "Shipping canceled")
 		formatString: #,0
 		displayFolder: Entregas
 		lineageTag: a1b43875-97bc-4bae-83c0-dfa7251a06ea
@@ -108,7 +109,7 @@ table _Medidas
 	measure 'Cor Atraso' =
 			// cor para formatação condicional: vermelho = locais mais críticos
 			VAR t = [Taxa de Atraso]
-			RETURN SWITCH(TRUE(), ISBLANK(t), BLANK(), t >= 0.60, "#B3261E", t >= 0.57, "#E34948", t >= 0.54, "#F2A29E", "#C9C8C2")
+			RETURN SWITCH(TRUE(), ISBLANK(t), BLANK(), t >= 0.62, "#B3261E", t >= 0.59, "#E34948", t >= 0.57, "#F2A29E", "#C9C8C2")
 		displayFolder: Entregas
 		lineageTag: 547be59b-1eae-448e-b896-f74aad6b3d5c
 
@@ -121,6 +122,12 @@ table _Medidas
 		formatString: \$#,0;(\$#,0);\$#,0
 		displayFolder: Clientes
 		lineageTag: 7adb7605-f6d5-4fe2-bda3-68b0101ad208
+
+	/// Prejuízo com sinal negativo, para os cards
+	measure 'Prejuízo (negativo)' = -[Prejuízo]
+		formatString: \$#,0;-\$#,0;\$#,0
+		displayFolder: Lucro
+		lineageTag: ca62e778-5138-43ac-a99f-567e74b72a30
 
 	column Coluna
 		dataType: int64

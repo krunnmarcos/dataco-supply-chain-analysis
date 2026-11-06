@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "pVendas_title",
   "position": {
-    "x": 263.41463414634148,
-    "y": 19.756097560975611,
+    "x": 264.08921933085503,
+    "y": 19.628252788104088,
     "z": 0,
-    "height": 83.41463414634147,
-    "width": 770.48780487804879,
+    "height": 83.866171003717469,
+    "width": 845.79925650557618,
     "tabOrder": 0
   },
   "visual": {
@@ -32,7 +32,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Faturamento, volume, prejuízo e clientes por categoria",
+                    "value": "Faturamento, volume, prejuízo e clientes por categoria · Valores financeiros excluem pedidos cancelados e suspeitos de fraude",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "10pt",

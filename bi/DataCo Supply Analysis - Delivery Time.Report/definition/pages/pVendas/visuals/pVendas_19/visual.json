@@ -180,7 +180,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Faturamento por mês'"
+                  "Value": "'Faturamento por mês. A partir de out/2017 o dataset muda: 1 item por pedido e outro catálogo, por isso o faturamento cai'"
                 }
               }
             },
@@ -191,14 +191,10 @@
                 }
               }
             },
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#6B6A66'"
-                    }
-                  }
+            "titleWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             }

@@ -73,7 +73,8 @@ def impacto_acoes(orders):
     shipped = orders['Delivery Status'] != 'Shipping canceled'
     mode, hour = orders['Shipping Mode'], orders['order date (DateOrders)'].dt.hour
     sched = orders[SCHED].copy()
-    late = lambda s: ((orders[REAL] > s) & shipped).mean()
+    # rate over shipped orders: canceled/fraud orders never ship, so they cannot be late or on time
+    late = lambda s: (orders[REAL] > s)[shipped].mean()
     steps = {'Hoje': late(sched)}
     sched = sched + ((mode == 'Same Day') & (hour >= 12)).astype(int)
     steps['+ Same Day: +1 dia após 12h'] = late(sched)
@@ -82,7 +83,7 @@ def impacto_acoes(orders):
     steps['+ Second Class: prazo 4 dias'] = late(sched.where(mode != 'Second Class', 4))
     steps['+ Second Class: prazo 6 dias (alternativa)'] = late(sched.where(mode != 'Second Class', 6))
     # shortcut: late() recomputes from real vs scheduled days; matches Late_delivery_risk on today's SLA (asserted below)
-    assert abs(steps['Hoje'] - orders['Late_delivery_risk'].mean()) < 1e-9
+    assert abs(steps['Hoje'] - orders.loc[shipped, 'Late_delivery_risk'].mean()) < 1e-9
 
     s = pd.Series(steps)
     fig, ax = plt.subplots(figsize=(9, 3))
@@ -94,7 +95,8 @@ def impacto_acoes(orders):
     ax.invert_yaxis()
     ax.set_xlim(0, 0.65)
     ax.xaxis.set_major_formatter(mtick.PercentFormatter(1))
-    ax.set_title('Taxa de atraso simulada no histórico, aplicando as ações em sequência', loc='left', fontsize=11)
+    ax.set_title('Atraso registrado se o prazo prometido refletir a operação real (simulação no histórico)',
+                 loc='left', fontsize=11)
     _grid(ax, 'x')
     fig.tight_layout()
     _save(fig, '03_impacto_acoes.png')
@@ -133,12 +135,12 @@ def pedidos_e_atraso_mes(orders):
     fig, (a1, a2) = plt.subplots(2, 1, figsize=(10, 5), sharex=True)
     a1.plot(m.index, m['pedidos'], color=BLUE, lw=2)
     a1.set_ylim(0, m['pedidos'].max() * 1.15)
-    a1.set_title('Pedidos por mês', loc='left', fontsize=10)
+    a1.set_title('Pedidos enviados por mês', loc='left', fontsize=10)
     a2.plot(m.index, m['late_rate'], color=MUTED, lw=2)
     a2.axhline(orders['Late_delivery_risk'].mean(), color=MUTED, lw=1, ls='--')
     a2.set_ylim(0, 1)
     a2.yaxis.set_major_formatter(mtick.PercentFormatter(1))
-    a2.set_title('Taxa de atraso por mês (tracejado = média)', loc='left', fontsize=10)
+    a2.set_title('Taxa de atraso por mês, pedidos enviados (tracejado = média)', loc='left', fontsize=10)
     for ax in (a1, a2):
         _grid(ax)
     fig.suptitle('O volume sobe a partir de out/2017 e a taxa de atraso não muda: o atraso não vem de sobrecarga',
@@ -155,11 +157,12 @@ def main():
     prazos_por_modo(shipped)
     same_day_por_hora(shipped)
     print(impacto_acoes(orders).round(3))
-    b = df['Benefit per order']
-    by_cat = df.assign(lucro=b.clip(lower=0), prejuizo=-b.clip(upper=0)).groupby('Category Name', observed=True)
+    valid = df[~df['Order Status'].isin(['CANCELED', 'SUSPECTED_FRAUD'])]  # never shipped: not real revenue
+    b = valid['Benefit per order']
+    by_cat = valid.assign(lucro=b.clip(lower=0), prejuizo=-b.clip(upper=0)).groupby('Category Name', observed=True)
     pareto(by_cat['lucro'].sum(), 'lucro bruto', BLUE, '04_pareto_lucro.png')
     pareto(by_cat['prejuizo'].sum(), 'prejuízo', ORANGE, '05_pareto_prejuizo.png')
-    pedidos_e_atraso_mes(orders)
+    pedidos_e_atraso_mes(shipped)
 
 
 if __name__ == '__main__':

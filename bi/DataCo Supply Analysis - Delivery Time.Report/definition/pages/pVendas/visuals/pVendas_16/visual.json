@@ -217,6 +217,19 @@
             }
           }
         }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Fishing lidera com 19% do total'"
+                }
+              }
+            }
+          }
+        }
       ]
     }
   }

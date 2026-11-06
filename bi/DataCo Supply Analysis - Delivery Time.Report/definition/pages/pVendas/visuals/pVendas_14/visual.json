@@ -23,11 +23,12 @@
                       "Entity": "_Medidas"
                     }
                   },
-                  "Property": "Prejuízo"
+                  "Property": "Prejuízo (negativo)"
                 }
               },
-              "queryRef": "_Medidas.Prejuízo",
-              "nativeQueryRef": "Prejuízo"
+              "queryRef": "_Medidas.Prejuízo (negativo)",
+              "nativeQueryRef": "Prejuízo (negativo)",
+              "displayName": "Prejuízo"
             }
           ]
         }
@@ -52,6 +53,20 @@
                       "Value": "'#1F1F1F'"
                     }
                   }
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1000000D"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "2L"
                 }
               }
             }

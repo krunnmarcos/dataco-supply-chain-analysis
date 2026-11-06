@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "_Medidas.Pedidos",
-              "nativeQueryRef": "Pedidos"
+              "nativeQueryRef": "Pedidos",
+              "displayName": "Pedidos enviados"
             }
           ]
         }
