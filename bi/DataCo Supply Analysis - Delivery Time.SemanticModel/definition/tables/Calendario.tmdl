@@ -1,0 +1,108 @@
+table Calendario
+	lineageTag: 03443231-c6f8-40e7-88cd-ba56e98f2428
+	dataCategory: Time
+
+	column Data
+		dataType: dateTime
+		isKey
+		formatString: dd/mm/yyyy
+		lineageTag: fb0eca47-6698-4ca6-9910-db08a3958677
+		summarizeBy: none
+		sourceColumn: [Data]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ano
+		dataType: int64
+		formatString: 0
+		lineageTag: 3ba0bfae-822d-48f8-b89d-f7ab0e8072fb
+		summarizeBy: none
+		sourceColumn: [Ano]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mês Num'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 7c02e6d2-cf65-412a-b44e-addf4206ebd3
+		summarizeBy: none
+		sourceColumn: [Mês Num]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mês
+		dataType: string
+		lineageTag: cf26cde3-ad13-46c2-9409-468c5291cb98
+		summarizeBy: none
+		sourceColumn: [Mês]
+		sortByColumn: 'Mês Num'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mês Ano'
+		dataType: dateTime
+		formatString: mmm/yyyy
+		lineageTag: 93a034be-92fc-4c33-9b1e-53de320a0c26
+		summarizeBy: none
+		sourceColumn: [Mês Ano]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ano-Mês
+		dataType: string
+		lineageTag: fd6a3383-9a49-4f3f-ae33-a3d6907540bd
+		summarizeBy: none
+		sourceColumn: [Ano-Mês]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Trimestre
+		dataType: string
+		lineageTag: c2858f59-9bf5-4bf0-8a08-f42640e59ced
+		summarizeBy: none
+		sourceColumn: [Trimestre]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dia Semana Num'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: f160b909-a4fc-4e3f-aeaa-79191f0c9579
+		summarizeBy: none
+		sourceColumn: [Dia Semana Num]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dia Semana'
+		dataType: string
+		lineageTag: 45d3760f-d0e9-4f79-9bc1-2cfadfe60c62
+		summarizeBy: none
+		sourceColumn: [Dia Semana]
+		sortByColumn: 'Dia Semana Num'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Calendario = calculated
+		mode: import
+		source =
+				// reserva fixa: a tabela calculada é avaliada antes de fVendas ter dados (primeira abertura)
+				VAR inicio = DATE(YEAR(COALESCE(MIN(fVendas[Data Pedido]), DATE(2015, 1, 1))), 1, 1)
+				VAR fim = EOMONTH(COALESCE(MAX(fVendas[Data Pedido]), DATE(2018, 1, 31)), 0)
+				RETURN
+				    ADDCOLUMNS(
+				        SELECTCOLUMNS(CALENDAR(inicio, fim), "Data", [Date]),
+				        "Ano", YEAR([Data]),
+				        "Mês Num", MONTH([Data]),
+				        "Mês", SWITCH(MONTH([Data]), 1, "Jan", 2, "Fev", 3, "Mar", 4, "Abr", 5, "Mai", 6, "Jun",
+				                      7, "Jul", 8, "Ago", 9, "Set", 10, "Out", 11, "Nov", "Dez"),
+				        "Mês Ano", DATE(YEAR([Data]), MONTH([Data]), 1),
+				        "Ano-Mês", FORMAT([Data], "yyyy-mm"),
+				        "Trimestre", "T" & QUARTER([Data]),
+				        "Dia Semana Num", WEEKDAY([Data], 2),
+				        "Dia Semana", SWITCH(WEEKDAY([Data], 2), 1, "Seg", 2, "Ter", 3, "Qua", 4, "Qui", 5, "Sex", 6, "Sáb", "Dom")
+				    )
+
+	annotation PBI_Id = 5b7525d9a069424a8d67beb9ff8272c5
+

@@ -1,0 +1,28 @@
+relationship ff9692d3-744a-42fb-87f0-65bd872c0e26
+	fromColumn: fVendas.'Categoria Id'
+	toColumn: dCategoria.'Categoria Id'
+
+relationship 6a296e05-3379-4405-a7d6-507f38fce7e7
+	fromColumn: fVendas.'Produto Id'
+	toColumn: dProduto.'Produto Id'
+
+relationship da539cef-0b6c-4bec-9a0a-4a9495fed3fd
+	fromColumn: fVendas.'Cliente Id'
+	toColumn: dCliente.'Cliente Id'
+
+relationship 5426a1a9-664e-48cc-82ca-44110488800d
+	fromColumn: fVendas.'Saída Id'
+	toColumn: dLocalSaida.'Saída Id'
+
+relationship 3042ddaf-caed-4527-aa9f-758abb7f33fe
+	fromColumn: fVendas.'Entrega Id'
+	toColumn: dLocalEntrega.'Entrega Id'
+
+relationship 28a74932-39ee-4165-a2bb-32ae53bb88e6
+	fromColumn: fVendas.'Tipo Entrega Id'
+	toColumn: dTipoEntrega.'Tipo Entrega Id'
+
+relationship e0605136-f7a9-4a01-a030-dbf40e81669e
+	fromColumn: fVendas.'Data Pedido'
+	toColumn: Calendario.Data
+

@@ -1,0 +1,75 @@
+table dLocalEntrega
+	lineageTag: afab3419-3c24-4c89-b1f5-9adba5207801
+
+	column 'Entrega Id'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 68f3aca2-36d4-4d31-85be-43221f3ae1f9
+		summarizeBy: none
+		sourceColumn: Entrega Id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cidade Entrega'
+		dataType: string
+		lineageTag: 030693d3-3220-42e9-a72b-704fa2684e50
+		dataCategory: City
+		summarizeBy: none
+		sourceColumn: Cidade Entrega
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Estado Entrega'
+		dataType: string
+		lineageTag: 6f6b6080-6b77-45ac-a578-aebe36f6ba1d
+		dataCategory: StateOrProvince
+		summarizeBy: none
+		sourceColumn: Estado Entrega
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'País Entrega'
+		dataType: string
+		lineageTag: bd93703c-98e2-4ff0-84b2-7aa6be77697d
+		dataCategory: Country
+		summarizeBy: none
+		sourceColumn: País Entrega
+
+		annotation SummarizationSetBy = Automatic
+
+	column Região
+		dataType: string
+		lineageTag: 4ef94a1a-a171-4594-b717-4a97543d33fc
+		summarizeBy: none
+		sourceColumn: Região
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mercado
+		dataType: string
+		lineageTag: ad311330-2776-404a-82ce-5ef665134669
+		summarizeBy: none
+		sourceColumn: Mercado
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Local Entrega'
+		dataType: string
+		lineageTag: 0bfc9fea-a2c8-4ce5-9b31-458cbc94359c
+		dataCategory: Place
+		summarizeBy: none
+		sourceColumn: Local Entrega
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dLocalEntrega = m
+		mode: import
+		source =
+				let
+				    Fonte = Parquet.Document(File.Contents(PastaDados & "dLocalEntrega.parquet"), [Compression=null, LegacyColumnNameEncoding=false, MaxDepth=null])
+				in
+				    Fonte
+
+	annotation PBI_ResultType = Table
+

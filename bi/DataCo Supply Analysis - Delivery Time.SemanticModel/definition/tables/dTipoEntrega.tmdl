@@ -1,0 +1,40 @@
+table dTipoEntrega
+	lineageTag: 0ddcf3c1-744b-42ff-a94d-55a2b705ac81
+
+	column 'Tipo Entrega Id'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 89e30a75-2daf-456a-bdb6-3e0ac3bf3903
+		summarizeBy: none
+		sourceColumn: Tipo Entrega Id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Modo Envio'
+		dataType: string
+		lineageTag: f7139d75-b48e-4aa4-9315-64ebfad738ad
+		summarizeBy: none
+		sourceColumn: Modo Envio
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Prazo (dias)'
+		dataType: int64
+		formatString: 0
+		lineageTag: f21f9785-39cf-40da-ba92-a4a2cbe88541
+		summarizeBy: none
+		sourceColumn: Prazo (dias)
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dTipoEntrega = m
+		mode: import
+		source =
+				let
+				    Fonte = Parquet.Document(File.Contents(PastaDados & "dTipoEntrega.parquet"), [Compression=null, LegacyColumnNameEncoding=false, MaxDepth=null])
+				in
+				    Fonte
+
+	annotation PBI_ResultType = Table
+

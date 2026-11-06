@@ -1,0 +1,66 @@
+table dCliente
+	lineageTag: c410872b-9b13-47ea-8dc4-b46edb0a0345
+
+	column 'Cliente Id'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 0df63894-1f62-455f-a5ac-548d9fceeec1
+		summarizeBy: none
+		sourceColumn: Cliente Id
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cliente
+		dataType: string
+		lineageTag: e6f9b599-30a5-4f6f-963a-f6827b447ac1
+		summarizeBy: none
+		sourceColumn: Cliente
+
+		annotation SummarizationSetBy = Automatic
+
+	column Segmento
+		dataType: string
+		lineageTag: 5197092b-b2ff-4793-b44b-688aa89cfda7
+		summarizeBy: none
+		sourceColumn: Segmento
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cidade
+		dataType: string
+		lineageTag: b7d07afa-7b39-467e-94de-8821f3ba6eac
+		dataCategory: City
+		summarizeBy: none
+		sourceColumn: Cidade
+
+		annotation SummarizationSetBy = Automatic
+
+	column Estado
+		dataType: string
+		lineageTag: 3e9586bd-3ee7-4fce-9832-98c49df2e3fb
+		dataCategory: StateOrProvince
+		summarizeBy: none
+		sourceColumn: Estado
+
+		annotation SummarizationSetBy = Automatic
+
+	column País
+		dataType: string
+		lineageTag: ca4ede02-7c9d-463c-8b59-1f5daa1d76ae
+		dataCategory: Country
+		summarizeBy: none
+		sourceColumn: País
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dCliente = m
+		mode: import
+		source =
+				let
+				    Fonte = Parquet.Document(File.Contents(PastaDados & "dCliente.parquet"), [Compression=null, LegacyColumnNameEncoding=false, MaxDepth=null])
+				in
+				    Fonte
+
+	annotation PBI_ResultType = Table
+

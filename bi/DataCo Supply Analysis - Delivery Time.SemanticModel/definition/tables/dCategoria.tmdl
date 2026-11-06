@@ -1,0 +1,48 @@
+table dCategoria
+	lineageTag: 9dfd7999-cef6-4739-ab91-ac42988aea99
+
+	column 'Categoria Id'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 4c86f4db-df40-49a3-ba71-27054fae779b
+		summarizeBy: none
+		sourceColumn: Categoria Id
+
+		annotation SummarizationSetBy = Automatic
+
+	column Categoria
+		dataType: string
+		lineageTag: 086af12b-0450-4285-b5ff-a1905a1f7b81
+		summarizeBy: none
+		sourceColumn: Categoria
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Departamento Id'
+		dataType: int64
+		formatString: 0
+		lineageTag: 28e5feeb-8716-417e-aa46-e4e99d78be49
+		summarizeBy: none
+		sourceColumn: Departamento Id
+
+		annotation SummarizationSetBy = Automatic
+
+	column Departamento
+		dataType: string
+		lineageTag: b73de7a4-30cc-49d3-90a1-6b315802280e
+		summarizeBy: none
+		sourceColumn: Departamento
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dCategoria = m
+		mode: import
+		source =
+				let
+				    Fonte = Parquet.Document(File.Contents(PastaDados & "dCategoria.parquet"), [Compression=null, LegacyColumnNameEncoding=false, MaxDepth=null])
+				in
+				    Fonte
+
+	annotation PBI_ResultType = Table
+

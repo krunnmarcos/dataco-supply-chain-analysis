@@ -1,0 +1,79 @@
+table dLocalSaida
+	lineageTag: d853429c-453a-4d50-8e28-262c652e1025
+
+	column 'Saída Id'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c025d564-a58d-437c-afe0-55b4c054dc62
+		summarizeBy: none
+		sourceColumn: Saída Id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cidade Saída'
+		dataType: string
+		lineageTag: 121e6727-7202-4722-b089-d69fbde0763f
+		dataCategory: City
+		summarizeBy: none
+		sourceColumn: Cidade Saída
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Estado Saída'
+		dataType: string
+		lineageTag: affc8eac-6b50-4af4-a34e-6fa4487d7472
+		dataCategory: StateOrProvince
+		summarizeBy: none
+		sourceColumn: Estado Saída
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'País Saída'
+		dataType: string
+		lineageTag: 9a943c8c-af2f-483c-b498-63a8cc876304
+		dataCategory: Country
+		summarizeBy: none
+		sourceColumn: País Saída
+
+		annotation SummarizationSetBy = Automatic
+
+	column Latitude
+		dataType: double
+		formatString: 0.0000
+		lineageTag: 27903e40-81c7-4af1-aec7-8ac36edfbf3a
+		dataCategory: Latitude
+		summarizeBy: none
+		sourceColumn: Latitude
+
+		annotation SummarizationSetBy = Automatic
+
+	column Longitude
+		dataType: double
+		formatString: 0.0000
+		lineageTag: 473f4a7b-5b3a-4fd6-9cdc-3cb21fe61b0f
+		dataCategory: Longitude
+		summarizeBy: none
+		sourceColumn: Longitude
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Local Saída'
+		dataType: string
+		lineageTag: 8f76747a-f544-447e-900e-9799ef0df7f5
+		dataCategory: Place
+		summarizeBy: none
+		sourceColumn: Local Saída
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dLocalSaida = m
+		mode: import
+		source =
+				let
+				    Fonte = Parquet.Document(File.Contents(PastaDados & "dLocalSaida.parquet"), [Compression=null, LegacyColumnNameEncoding=false, MaxDepth=null])
+				in
+				    Fonte
+
+	annotation PBI_ResultType = Table
+

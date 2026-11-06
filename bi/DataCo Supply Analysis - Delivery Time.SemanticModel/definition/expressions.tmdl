@@ -1,0 +1,5 @@
+expression PastaDados = "C:\Mac\Home\Documents\GitHub\detaco-supply-chain-analysis\data\processed\star\" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: a2ebcac9-c9c8-44d6-9231-64982a5206bc
+
+	annotation PBI_ResultType = Text
+

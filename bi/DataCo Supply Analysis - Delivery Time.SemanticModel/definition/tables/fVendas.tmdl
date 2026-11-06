@@ -1,0 +1,261 @@
+table fVendas
+	lineageTag: ad9fb5e1-5653-43b3-b77d-b6072ca461bb
+
+	column 'Item Id'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: f85a3d15-1b5f-4c78-a9db-dc16141351c8
+		summarizeBy: none
+		sourceColumn: Item Id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Pedido Id'
+		dataType: int64
+		formatString: 0
+		lineageTag: f85f836a-41f1-44d3-b028-0871c2b4c489
+		summarizeBy: none
+		sourceColumn: Pedido Id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Pedido'
+		dataType: dateTime
+		isHidden
+		formatString: dd/mm/yyyy
+		lineageTag: 1823a941-ebbb-47fc-a015-bb75aad34620
+		summarizeBy: none
+		sourceColumn: Data Pedido
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Hora Pedido'
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: 1160e90e-aaf1-4474-8e65-14ed66a30a13
+		summarizeBy: none
+		sourceColumn: Data Hora Pedido
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hora Pedido'
+		dataType: int64
+		formatString: 0
+		lineageTag: 3866f0e0-d67e-4e78-a782-e3dc5016eab8
+		summarizeBy: none
+		sourceColumn: Hora Pedido
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Entrega'
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: 9a8e880f-05ae-4087-b250-2ee68c63412f
+		summarizeBy: none
+		sourceColumn: Data Entrega
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Categoria Id'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: f189422b-b5cc-4c5f-bae7-50364620b38d
+		summarizeBy: none
+		sourceColumn: Categoria Id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Produto Id'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 9d3f6818-d283-47cd-b2fa-2cd83512364f
+		summarizeBy: none
+		sourceColumn: Produto Id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cliente Id'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: b63b3a50-9503-47d5-a482-5ba6760c0d50
+		summarizeBy: none
+		sourceColumn: Cliente Id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Saída Id'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: b200e861-0255-4bc4-8c0d-88b8ebd5cd55
+		summarizeBy: none
+		sourceColumn: Saída Id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Entrega Id'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 0fddb7d7-652e-43a5-b338-f99bd3b1f68b
+		summarizeBy: none
+		sourceColumn: Entrega Id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tipo Entrega Id'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: b40edc12-1d0a-4e68-8b80-c5303073736e
+		summarizeBy: none
+		sourceColumn: Tipo Entrega Id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dias Reais'
+		dataType: int64
+		formatString: 0
+		lineageTag: 43fe619d-36f6-4213-8bd2-f5ea3eecea14
+		summarizeBy: none
+		sourceColumn: Dias Reais
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dias Previstos'
+		dataType: int64
+		formatString: 0
+		lineageTag: 5a9e4db6-fe4c-4de4-97d1-71ea57d5302b
+		summarizeBy: none
+		sourceColumn: Dias Previstos
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dias Atraso'
+		dataType: int64
+		formatString: 0
+		lineageTag: cb9f7adb-778f-4920-b5e7-bd6b63a4de14
+		summarizeBy: none
+		sourceColumn: Dias Atraso
+
+		annotation SummarizationSetBy = Automatic
+
+	column Atrasado
+		dataType: int64
+		formatString: 0
+		lineageTag: 2f628293-73f3-4459-bedf-c31b3be8f740
+		summarizeBy: none
+		sourceColumn: Atrasado
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Status Entrega'
+		dataType: string
+		lineageTag: fd0be3d0-c4b4-4b37-9ea2-09c2ac27f943
+		summarizeBy: none
+		sourceColumn: Status Entrega
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Status Pedido'
+		dataType: string
+		lineageTag: 32a9f199-1149-4552-94f7-6aa362012f4e
+		summarizeBy: none
+		sourceColumn: Status Pedido
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tipo Pagamento'
+		dataType: string
+		lineageTag: 2cfb6cfa-07e7-497a-87d0-980d7d73443f
+		summarizeBy: none
+		sourceColumn: Tipo Pagamento
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantidade
+		dataType: int64
+		formatString: 0
+		lineageTag: 63eb6b5a-ba74-41f9-b506-b08811e65a17
+		summarizeBy: sum
+		sourceColumn: Quantidade
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Preço Unitário'
+		dataType: double
+		formatString: \$#,0.00
+		lineageTag: e9a69de6-2848-4b28-a98d-6c77d9e91863
+		summarizeBy: none
+		sourceColumn: Preço Unitário
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Venda Bruta'
+		dataType: double
+		formatString: \$#,0.00
+		lineageTag: c68093ec-988f-4136-9328-c59847aeaf35
+		summarizeBy: sum
+		sourceColumn: Venda Bruta
+
+		annotation SummarizationSetBy = Automatic
+
+	column Desconto
+		dataType: double
+		formatString: \$#,0.00
+		lineageTag: fe8fa9da-08a5-4424-9e76-2d7b7e42f4d5
+		summarizeBy: sum
+		sourceColumn: Desconto
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Taxa Desconto'
+		dataType: double
+		formatString: 0%
+		lineageTag: d8b10c9c-d2ea-46a5-9941-0b6acc443d68
+		summarizeBy: none
+		sourceColumn: Taxa Desconto
+
+		annotation SummarizationSetBy = Automatic
+
+	column Faturamento
+		dataType: double
+		formatString: \$#,0.00
+		lineageTag: 4292beae-fd5d-4d35-a808-5a0031a67654
+		summarizeBy: sum
+		sourceColumn: Faturamento
+
+		annotation SummarizationSetBy = Automatic
+
+	column Lucro
+		dataType: double
+		formatString: \$#,0.00
+		lineageTag: df2f57ac-6bb8-4ba8-b98a-9bd7880bd9cd
+		summarizeBy: sum
+		sourceColumn: Lucro
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Margem Item'
+		dataType: double
+		formatString: 0%
+		lineageTag: a96551b4-8094-45d2-a6e2-f442ac5b8487
+		summarizeBy: none
+		sourceColumn: Margem Item
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fVendas = m
+		mode: import
+		source =
+				let
+				    Fonte = Parquet.Document(File.Contents(PastaDados & "fVendas.parquet"), [Compression=null, LegacyColumnNameEncoding=false, MaxDepth=null])
+				in
+				    Fonte
+
+	annotation PBI_ResultType = Table
+

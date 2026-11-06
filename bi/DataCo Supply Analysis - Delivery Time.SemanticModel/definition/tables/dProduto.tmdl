@@ -1,0 +1,40 @@
+table dProduto
+	lineageTag: d4369db0-64a5-4f30-9efe-b54ff7b552b1
+
+	column 'Produto Id'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 13ce56e3-8233-49a8-b200-148fef1d5610
+		summarizeBy: none
+		sourceColumn: Produto Id
+
+		annotation SummarizationSetBy = Automatic
+
+	column Produto
+		dataType: string
+		lineageTag: 5838a936-d09b-428c-9399-128a14937ff4
+		summarizeBy: none
+		sourceColumn: Produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column Preço
+		dataType: double
+		formatString: \$#,0.00
+		lineageTag: f2c7cff5-4fce-46f3-bc47-4efedea86361
+		summarizeBy: none
+		sourceColumn: Preço
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dProduto = m
+		mode: import
+		source =
+				let
+				    Fonte = Parquet.Document(File.Contents(PastaDados & "dProduto.parquet"), [Compression=null, LegacyColumnNameEncoding=false, MaxDepth=null])
+				in
+				    Fonte
+
+	annotation PBI_ResultType = Table
+

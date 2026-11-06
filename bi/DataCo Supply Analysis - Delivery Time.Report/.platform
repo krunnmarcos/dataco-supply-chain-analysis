@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "DataCo Supply Analysis - Delivery Time"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "2de2e49d-ee0f-4581-b99b-4e1e21d0e0b5"
+  }
+}
